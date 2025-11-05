@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bể Cá Động</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a2980, #26d0ce);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        
+        .aquarium-container {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            padding: 20px;
+        }
+        
+        .aquarium {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(to bottom, #1e5799, #2989d8);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 10px solid #8B4513;
+        }
+        
+        .title {
+            text-align: center;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 28px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: float 5s infinite ease-in;
+        }
+        
+        .plant {
+            position: absolute;
+            bottom: 0;
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(to top, #006400, #00a000);
+            clip-path: polygon(0% 100%, 20% 60%, 40% 80%, 60% 40%, 80% 70%, 100% 20%, 100% 100%);
+        }
+        
+        .rock {
+            position: absolute;
+            bottom: 0;
+            width: 100px;
+            height: 50px;
+            background: #696969;
+            border-radius: 50% 50% 0 0;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-500px) translateX(20px);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes swim {
+            0% {
+                transform: translateX(-100px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px));
+            }
+        }
+        
+        @keyframes swim-reverse {
+            0% {
+                transform: translateX(calc(100vw + 100px)) scaleX(-1);
+            }
+            100% {
+                transform: translateX(-100px) scaleX(-1);
+            }
+        }
+        
+        .fish {
+            position: absolute;
+            width: 80px;
+            height: 40px;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        
+        .fish-body {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(45deg, #FF6347, #FF4500);
+            border-radius: 50% 40% 40% 50%;
+            top: 5px;
+            left: 10px;
+        }
+        
+        .fish-tail {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: #FF4500;
+            border-radius: 50% 0 0 50%;
+            top: 5px;
+            left: 0;
+            transform-origin: right center;
+            animation: tail-wag 0.3s infinite alternate;
+        }
+        
+        .fish-fin {
+            position: absolute;
+            width: 10px;
+            height: 15px;
+            background: #FF6347;
+            border-radius: 50% 50% 0 0;
+            top: 0;
+            left: 30px;
+        }
+        
+        .fish-eye {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 10px;
+            left: 50px;
+        }
+        
+        .fish-eye::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: black;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+        
+        @keyframes tail-wag {
+            0% {
+                transform: rotate(-10deg);
+            }
+            100% {
+                transform: rotate(10deg);
+            }
+        }
+        
+        .fish-2 .fish-body {
+            background: linear-gradient(45deg, #1E90FF, #0000CD);
+        }
+        
+        .fish-2 .fish-tail {
+            background: #0000CD;
+        }
+        
+        .fish-2 .fish-fin {
+            background: #1E90FF;
+        }
+        
+        .fish-3 .fish-body {
+            background: linear-gradient(45deg, #32CD32, #228B22);
+        }
+        
+        .fish-3 .fish-tail {
+            background: #228B22;
+        }
+        
+        .fish-3 .fish-fin {
+            background: #32CD32;
+        }
+        
+        .info {
+            text-align: center;
+            color: white;
+            margin-top: 15px;
+            font-size: 14px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="aquarium-container">
+        <h1 class="title">Bể Cá Đầy Màu Sắc</h1>
+        
+        <div class="aquarium" id="aquarium">
+            <!-- Cá và các yếu tố trang trí sẽ được thêm bằng JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button id="addFish">Thêm Cá</button>
+            <button id="changeBackground">Đổi Nền</button>
+            <button id="toggleAnimation">Tạm Dừng</button>
+        </div>
+        
+        <p class="info">Nhấp vào bể cá để tạo bong bóng!</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const aquarium = document.getElementById('aquarium');
+            const addFishBtn = document.getElementById('addFish');
+            const changeBgBtn = document.getElementById('changeBackground');
+            const toggleAnimBtn = document.getElementById('toggleAnimation');
+            
+            let animationRunning = true;
+            let fishCount = 0;
+            let backgroundIndex = 0;
+            const backgrounds = [
+                'linear-gradient(to bottom, #1e5799, #2989d8)',
+                'linear-gradient(to bottom, #1a2980, #26d0ce)',
+                'linear-gradient(to bottom, #3a1c71, #d76d77, #ffaf7b)',
+                'linear-gradient(to bottom, #0f2027, #203a43, #2c5364)'
+            ];
+            
+            // Tạo cây thủy sinh và đá
+            function createDecorations() {
+                // Tạo cây thủy sinh
+                for (let i = 0; i < 5; i++) {
+                    const plant = document.createElement('div');
+                    plant.className = 'plant';
+                    plant.style.left = `${20 + i * 170}px`;
+                    plant.style.height = `${100 + Math.random() * 60}px`;
+                    aquarium.appendChild(plant);
+                }
+                
+                // Tạo đá
+                for (let i = 0; i < 4; i++) {
+                    const rock = document.createElement('div');
+                    rock.className = 'rock';
+                    rock.style.left = `${80 + i * 200}px`;
+                    rock.style.width = `${80 + Math.random() * 60}px`;
+                    aquarium.appendChild(rock);
+                }
+            }
+            
+            // Tạo bong bóng
+            function createBubble(x, y) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                const size = 5 + Math.random() * 15;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${x}px`;
+                bubble.style.bottom = `${y}px`;
+                
+                // Thời gian nổi khác nhau cho mỗi bong bóng
+                bubble.style.animationDuration = `${3 + Math.random() * 4}s`;
+                
+                aquarium.appendChild(bubble);
+                
+                // Xóa bong bóng sau khi animation kết thúc
+                setTimeout(() => {
+                    if (bubble.parentNode) {
+                        bubble.parentNode.removeChild(bubble);
+                    }
+                }, 5000);
+            }
+            
+            // Tạo cá mới
+            function createFish() {
+                if (fishCount >= 10) return;
+                
+                fishCount++;
+                const fish = document.createElement('div');
+                fish.className = `fish fish-${(fishCount % 3) + 1}`;
+                
+                // Vị trí ngẫu nhiên
+                const top = 50 + Math.random() * 350;
+                fish.style.top = `${top}px`;
+                
+                // Tốc độ bơi ngẫu nhiên
+                const duration = 10 + Math.random() * 20;
+                
+                // Quyết định hướng bơi
+                const direction = Math.random() > 0.5 ? 'normal' : 'reverse';
+                
+                if (direction === 'normal') {
+                    fish.style.left = '-100px';
+                    fish.style.animation = `swim ${duration}s linear infinite`;
+                } else {
+                    fish.style.left = 'calc(100% + 100px)';
+                    fish.style.animation = `swim-reverse ${duration}s linear infinite`;
+                }
+                
+                // Tạo các bộ phận của cá
+                const tail = document.createElement('div');
+                tail.className = 'fish-tail';
+                
+                const body = document.createElement('div');
+                body.className = 'fish-body';
+                
+                const fin = document.createElement('div');
+                fin.className = 'fish-fin';
+                
+                const eye = document.createElement('div');
+                eye.className = 'fish-eye';
+                
+                fish.appendChild(tail);
+                fish.appendChild(body);
+                fish.appendChild(fin);
+                fish.appendChild(eye);
+                
+                aquarium.appendChild(fish);
+                
+                // Xóa cá khi animation kết thúc (trong trường hợp vòng lặp vô hạn bị dừng)
+                setTimeout(() => {
+                    if (fish.parentNode) {
+                        fish.parentNode.removeChild(fish);
+                        fishCount--;
+                    }
+                }, duration * 1000);
+            }
+            
+            // Tạo bong bóng ngẫu nhiên
+            function createRandomBubbles() {
+                if (!animationRunning) return;
+                
+                const x = 50 + Math.random() * (aquarium.offsetWidth - 100);
+                createBubble(x, 0);
+                
+                // Tạo bong bóng mới sau một khoảng thời gian ngẫu nhiên
+                setTimeout(createRandomBubbles, 500 + Math.random() * 1500);
+            }
+            
+            // Thay đổi nền
+            function changeBackground() {
+                backgroundIndex = (backgroundIndex + 1) % backgrounds.length;
+                aquarium.style.background = backgrounds[backgroundIndex];
+            }
+            
+            // Bật/tắt animation
+            function toggleAnimation() {
+                animationRunning = !animationRunning;
+                
+                const fishes = document.querySelectorAll('.fish');
+                const bubbles = document.querySelectorAll('.bubble');
+                
+                if (animationRunning) {
+                    fishes.forEach(fish => {
+                        fish.style.animationPlayState = 'running';
+                    });
+                    
+                    bubbles.forEach(bubble => {
+                        bubble.style.animationPlayState = 'running';
+                    });
+                    
+                    toggleAnimBtn.textContent = 'Tạm Dừng';
+                    createRandomBubbles();
+                } else {
+                    fishes.forEach(fish => {
+                        fish.style.animationPlayState = 'paused';
+                    });
+                    
+                    bubbles.forEach(bubble => {
+                        bubble.style.animationPlayState = 'paused';
+                    });
+                    
+                    toggleAnimBtn.textContent = 'Tiếp Tục';
+                }
+            }
+            
+            // Xử lý sự kiện click trên bể cá để tạo bong bóng
+            aquarium.addEventListener('click', function(e) {
+                const rect = aquarium.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = rect.bottom - e.clientY;
+                
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        createBubble(x + (Math.random() * 40 - 20), y);
+                    }, i * 100);
+                }
+            });
+            
+            // Gán sự kiện cho các nút
+            addFishBtn.addEventListener('click', createFish);
+            changeBgBtn.addEventListener('click', changeBackground);
+            toggleAnimBtn.addEventListener('click', toggleAnimation);
+            
+            // Khởi tạo bể cá
+            createDecorations();
+            
+            // Tạo cá ban đầu
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => createFish(), i * 1000);
+            }
+            
+            // Bắt đầu tạo bong bóng
+            setTimeout(createRandomBubbles, 1000);
+        });
+    </script>
+</body>
+</html>
